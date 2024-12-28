@@ -1,11 +1,9 @@
 <?php
+// Include Composer's autoloader
+require _DIR_ . '/../vendor/autoload.php'; // Adjust the path as necessary
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-
-require 'path/to/PHPMailer/src/Exception.php';
-require 'path/to/PHPMailer/src/PHPMailer.php';
-require 'path/to/PHPMailer/src/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -16,20 +14,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // PHPMailer instance
     $mail = new PHPMailer(true);
-    dd($name);
+
     try {
         // Server settings
         $mail->isSMTP();
         $mail->Host       = 'smtp.hostinger.com';          // SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'info@atechlogic.com';    // Your email address
-        $mail->Password   = 'H3l1t3ch@';    // Your email password or App Password
+        $mail->Username   = 'info@atechlogic.com';         // Your email address
+        $mail->Password   = 'H3l1t3ch@';                   // Your email password or App Password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
         // Sender and recipient
-        $mail->setfrom($email, $name); // From email
-        $mail->addaddress('info@atechlogic.com', 'Atech Logic'); // To email
+        $mail->setFrom($email, $name);                     // From email
+        $mail->addAddress('info@atechlogic.com', 'Atech Logic'); // To email
 
         // Email content
         $mail->isHTML(true); // Set email format to HTML
@@ -39,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           <p><strong>Message:</strong><br>$message</p>";
         $mail->AltBody = "Name: $name\nEmail: $email\nMessage: $message"; // Plain-text version
 
+        // Send the email
         $mail->send();
         echo 'Message sent successfully!';
     } catch (Exception $e) {
